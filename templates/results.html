@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Performance</title>
+    <!-- Plotly.js CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #faf9f9; /* Light background color */
+            font-family: Arial, sans-serif;
+            color: #333; /* Text color */
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            margin-right: 1010px;
+            margin-bottom: 60px;
+        }
+
+        .button-container button {
+            background-color: #007bff; /* Button background color */
+            color: #ffffff; /* Button text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3; /* Button background color on hover */
+        }
+
+        .container {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #000000; /* White box color */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+            margin-top: 50px;
+        }
+
+        .data-container {
+            flex: 1;
+            max-width: 30%;
+            padding-right: 20px;
+        }
+
+        #plot {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff; /* Blue color */
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="color: white; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        <div class="data-container">
+            <h1 style="color: white; margin-left: -20px;">Stock Performance</h1>
+            <p id="name"><strong><em>Name:</em></strong> {{ company_data.name }}</p>
+            <p id="sector"><strong><em>Sector:</em></strong> {{ company_data.sector }}</p>
+            <p id="date"><strong><em>Date:</em></strong> {{ company_data.date }}</p>
+            <p id="open-price"><strong><em>Open Price:</em></strong> {{ company_data.open_price }}</p>
+            <p id="high-price"><strong><em>High Price:</em></strong> {{ company_data.high_price }}</p>
+            <p id="low-price"><strong><em>Low Price:</em></strong> {{ company_data.low_price }}</p>
+            <p id="close-price"><strong><em>Close Price:</em></strong> {{ company_data.close_price }}</p>
+            <p id="volume"><strong><em>Volume:</em></strong> {{ company_data.volume }}</p>
+        </div>
+        
+        
+        <!-- Plot container -->
+        <div id="plot"></div>
+    </div>
+
+    <script>
+        // Extract data from HTML elements
+        var data = {
+            name: document.getElementById('name').innerText.split(': ')[1],
+            sector: document.getElementById('sector').innerText.split(': ')[1],
+            date: document.getElementById('date').innerText.split(': ')[1],
+            openPrice: parseFloat(document.getElementById('open-price').innerText.split(': ')[1]),
+            highPrice: parseFloat(document.getElementById('high-price').innerText.split(': ')[1]),
+            lowPrice: parseFloat(document.getElementById('low-price').innerText.split(': ')[1]),
+            closePrice: parseFloat(document.getElementById('close-price').innerText.split(': ')[1]),
+            volume: parseInt(document.getElementById('volume').innerText.split(': ')[1])
+        };
+
+        // Plot the chart
+        var plotData = [{
+            x: ['Open', 'High', 'Low', 'Close'],
+            y: [data.openPrice, data.highPrice, data.lowPrice, data.closePrice],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Stock Performance'
+        }];
+
+        var layout = {
+            title: data.name + ' Stock Performance',
+            xaxis: {
+                title: 'Price'
+            },
+            yaxis: {
+                title: 'Value'
+            }
+        };
+
+        Plotly.newPlot('plot', plotData, layout);
+    </script>
+
+<!-- Button to go back -->
+<div class="button-container">
+    <button onclick="goBack()">Go Back</button>
+</div>
+</div>
+
+<script>
+// JavaScript function to go back
+function goBack() {
+    window.history.back();
+}
+</script>
+
+</body>
+</html>
